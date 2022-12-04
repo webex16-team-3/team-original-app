@@ -9,7 +9,7 @@
     />
     <button>本を探す</button>
   </div>
-  <div class="recommend">
+  <div class="recommend-words">
     <h2>おすすめのキーワード</h2>
     <div class="lists">
       <ul>
@@ -38,25 +38,38 @@
   /*テキスト(inputとbuttonも真ん中に)*/
   text-align: center;
 }
+.form button {
+  /*ボックスモデル*/
+  margin-left: 3%;
+  border-radius: 5px;
+  /*背景*/
+  background-color: rgb(230, 230, 230);
+}
+.form button:hover {
+  /*ボックスモデル*/
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
 .input-box {
   /*ボックスモデル*/
   border: solid 1px;
   border-radius: 10px;
-  width: 13rem;
+  width: 18rem;
   height: 3rem;
+  /*テキスト*/
+  font-size: 1.2rem;
 }
 .lists {
   /*ボックスモデル*/
   margin-right: 5rem;
 }
-.recommend {
+.recommend-words {
   /*ボックスモデル*/
   margin-top: 50px;
   /*テキスト*/
   text-align: center;
 }
 
-.recommend ul {
+.recommend-words ul {
   /*視覚整形モデル*/
   display: flex;
   /*ボックスモデル*/
@@ -69,6 +82,13 @@ ul li {
   margin-left: 5vw;
   /*テキスト*/
   font-size: 1.3rem;
-  text-decoration: underline;
+}
+
+ul li:hover {
+  /*テキスト*/
+  color: rgb(168, 168, 168);
+  font-weight: bold;
+  /*その他*/
+  cursor: pointer;
 }
 </style>

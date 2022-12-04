@@ -1,18 +1,13 @@
 <template>
-  <Home />
+  <router-view />
   <div>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/result">Result</router-link>
   </div>
 </template>
 
 <script>
-import Home from "@/components/Home.vue"
-
 export default {
-  components: {
-    Home,
-  },
   data() {
     return {}
   },
