@@ -14,60 +14,42 @@
         <div class="amazon-books">
           <h3>Amazon</h3>
           <div class="books">
-            <div class="book-info">
-              <h4>本のタイトル</h4>
+            <div
+              v-for="(amazonbook, index) in amazonbooks"
+              :key="index"
+              class="book-info"
+            >
+              <h4>{{ amazonbook.title }}</h4>
               <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
+              <div class="detail">著作者:{{ amazonbook.author }}</div>
             </div>
           </div>
         </div>
         <div class="rakuten-books">
           <h3>Rakuten</h3>
           <div class="books">
-            <div class="book-info">
-              <h4>本のタイトル</h4>
+            <div
+              v-for="(rakutenbook, index) in rakutenbooks"
+              :key="index"
+              class="book-info"
+            >
+              <h4>{{ rakutenbook.title }}</h4>
               <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
+              <div class="detail">著作者:{{ rakutenbook.author }}</div>
             </div>
           </div>
         </div>
         <div class="google-books">
           <h3>Google</h3>
           <div class="books">
-            <div class="book-info">
-              <h4>本のタイトル</h4>
+            <div
+              v-for="(googlebook, index) in googlebooks"
+              :key="index"
+              class="book-info"
+            >
+              <h4>{{ googlebook.title }}</h4>
               <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
-            </div>
-            <div class="book-info">
-              <h4>本のタイトル</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著者名/出版社/名前など</div>
+              <div class="detail">著作者:{{ googlebook.author }}</div>
             </div>
           </div>
         </div>
@@ -79,7 +61,23 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      amazonbooks: [
+        { index: 1, title: "a本のタイトル１", author: "太郎" },
+        { index: 2, title: "a本のタイトル２", author: "次郎" },
+        { index: 3, title: "a本のタイトル３", author: "三郎" },
+      ],
+      rakutenbooks: [
+        { index: 1, title: "r本のタイトル１", author: "太郎" },
+        { index: 2, title: "r本のタイトル２", author: "次郎" },
+        { index: 3, title: "r本のタイトル３", author: "三郎" },
+      ],
+      googlebooks: [
+        { index: 1, title: "g本のタイトル１", author: "太郎" },
+        { index: 2, title: "g本のタイトル２", author: "次郎" },
+        { index: 3, title: "g本のタイトル３", author: "三郎" },
+      ],
+    }
   },
   methods: {
     gotohome: function () {
@@ -154,7 +152,7 @@ ul li:hover {
   float: left;
   /*ボックスモデル*/
   width: 50%;
-  height: 25vh;
+  height: 24vh;
   /*背景*/
   background-color: rgb(172, 172, 172);
 }

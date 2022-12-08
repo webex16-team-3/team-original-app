@@ -1,5 +1,7 @@
 <template>
-  <div class="home-pic">写真</div>
+  <div class="home-pic">
+    <img src="../assets/books.jpeg" />
+  </div>
   <div class="form">
     <input
       type="text"
@@ -7,7 +9,7 @@
       id="input-box"
       class="input-box"
     />
-    <button>本を探す</button>
+    <button @click="displayContent()">本を探す</button>
   </div>
   <div class="recommend-words">
     <h2>おすすめのキーワード</h2>
@@ -21,7 +23,26 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  data() {
+    return {
+      inputvalue: "",
+    }
+  },
+  methods: {
+    displayContent: function () {
+      const element = document.getElementById("input-box")
+      console.log(element.value)
+      if (element.value != "") {
+        window.location.href = "http://localhost:8080/result"
+      } else {
+        alert("検索キーワードを入力してください")
+      }
+    },
+  },
+}
+</script>
 
 <style scoped>
 .home-pic {
@@ -31,6 +52,9 @@
   background-color: antiquewhite;
   /*テキスト*/
   text-align: center;
+}
+.home-pic img {
+  height: 100%;
 }
 .form {
   /*ボックスモデル*/
