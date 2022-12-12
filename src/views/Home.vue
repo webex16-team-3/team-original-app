@@ -24,6 +24,9 @@
 </template>
 
 <script>
+import { doc, updateDoc } from "firebase/firestore"
+import { db } from "../firebase"
+
 export default {
   data() {
     return {
@@ -35,7 +38,16 @@ export default {
       const element = document.getElementById("input-box")
       console.log(element.value)
       if (element.value != "") {
-        window.location.href = "http://localhost:8080/result"
+        const valueRef = doc(db, "input", "o3oP8W2UNxaw5Nhx9KED") //データベース"db"のコレクション"input"のドキュメント"o..."フィールド
+        const updateValue = updateDoc(valueRef, {
+          value: element.value,
+        })
+
+        //firebaseに反映させる → 画面遷移する(非同期処理)
+        updateValue.then(function () {
+          window.location.href = "http://localhost:8080/result"
+          console.log("画面遷移します")
+        })
       } else {
         alert("検索キーワードを入力してください")
       }
