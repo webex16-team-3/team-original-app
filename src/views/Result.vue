@@ -56,9 +56,15 @@
       </div>
     </div>
   </div>
+  <div>
+    {{ firebaseArray[0].value }}
+  </div>
 </template>
 
 <script>
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../firebase"
+
 export default {
   data() {
     return {
@@ -77,12 +83,25 @@ export default {
         { index: 2, title: "g本のタイトル２", author: "次郎" },
         { index: 3, title: "g本のタイトル３", author: "三郎" },
       ],
+
+      firebaseArray: [],
+      inputValue: "",
     }
   },
   methods: {
     gotohome: function () {
       window.location.href = "http://localhost:8080/"
     },
+  },
+  created() {
+    getDocs(collection(db, "input")).then((snapshot) => {
+      snapshot.forEach((doc) => {
+        console.log(doc.data())
+        this.firebaseArray.push({
+          ...doc.data(),
+        })
+      })
+    })
   },
 }
 </script>
