@@ -25,20 +25,7 @@
       </div>
       <div class="books-lists">
         <!-- ここから楽天の本の表示 -->
-        <div class="rakuten-books">
-          <h3>Rakuten</h3>
-          <div class="books">
-            <div
-              v-for="(rakutenbook, index) in rakutenbooks"
-              :key="index"
-              class="book-info"
-            >
-              <h4>{{ rakutenbook.title }}</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著作者:{{ rakutenbook.author }}</div>
-            </div>
-          </div>
-        </div>
+        <RakutenAPIVue />
         <!-- ここまで楽天の本の表示 -->
         <!-- ここからGoogleの本の表示 -->
         <div class="google-books">
@@ -80,15 +67,12 @@
 <script>
 import { doc, updateDoc, collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
+import RakutenAPIVue from "@/components/RakutenAPI.vue"
 
 export default {
+  components: { RakutenAPIVue },
   data() {
     return {
-      rakutenbooks: [
-        { index: 1, title: "r本のタイトル１", author: "太郎" },
-        { index: 2, title: "r本のタイトル２", author: "次郎" },
-        { index: 3, title: "r本のタイトル３", author: "三郎" },
-      ],
       googlebooks: [
         { index: 1, title: "g本のタイトル１", author: "太郎" },
         { index: 2, title: "g本のタイトル２", author: "次郎" },
@@ -140,7 +124,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @font-face {
   font-family: "Bradley Hand";
   src: url("../assets/bradley-hand-itc.ttf") format("truetype");
@@ -151,6 +135,7 @@ export default {
 }
 .container {
   display: flex;
+  align-items: stretch;
 }
 .main-contents {
   width: 100%;
@@ -158,7 +143,6 @@ export default {
 }
 .side-menu {
   width: 15%;
-  height: 1275px;
   background-color: #964340;
   font-size: 1.3rem;
   font-family: "Bradley Hand";
@@ -193,7 +177,7 @@ ul li:hover {
 }
 
 .form {
-  margin-top: 2vh;
+  margin-top: 33px;
   margin-left: 1vw;
 }
 
@@ -227,7 +211,7 @@ ul li:hover {
 
 .books {
   display: flex;
-  height: 33vh;
+  height: 400px;
   background-color: #eceff7;
 }
 
@@ -238,20 +222,26 @@ ul li:hover {
 }
 
 .book-info h4 {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   text-decoration: underline;
 }
 
 .pic {
   float: left;
-  width: 150px;
+  width: 180px;
   height: 180px;
   background-color: rgb(172, 172, 172);
 }
 
+.detail {
+  display: inline-block;
+  width: 200px;
+  height: 30px;
+}
+
 .rakuten-books {
   border-top: 1px solid;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .rakuten-books h3 {
@@ -264,7 +254,7 @@ ul li:hover {
 
 .google-books {
   border-top: 1px solid;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .google-books h3 {
@@ -277,7 +267,7 @@ ul li:hover {
 
 .amazon-books {
   border-top: 1px solid;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .amazon-books h3 {
