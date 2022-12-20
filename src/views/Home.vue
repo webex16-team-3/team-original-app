@@ -9,7 +9,7 @@
       id="input-box"
       class="input-box"
     />
-    <button @click="displayContent()">本を探す</button>
+    <button @click="displayContent">本を探す</button>
   </div>
   <div class="recommend-words">
     <h2>おすすめのキーワード</h2>
@@ -24,10 +24,12 @@
 </template>
 
 <script>
+//import RakutenAPIVue from "@/components/RakutenAPI.vue"
 import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../firebase"
 
 export default {
+  //components: { RakutenAPIVue },
   data() {
     return {
       inputvalue: "",

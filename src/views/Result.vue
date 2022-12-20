@@ -25,7 +25,8 @@
             </div>
           </div>
         </div>
-        <div class="rakuten-books">
+        <RakutenAPIVue />
+        <!--<div class="rakuten-books">
           <h3>Rakuten</h3>
           <div class="books">
             <div
@@ -38,7 +39,7 @@
               <div class="detail">著作者:{{ rakutenbook.author }}</div>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="google-books">
           <h3>Google</h3>
           <div class="books">
@@ -56,16 +57,15 @@
       </div>
     </div>
   </div>
-  <div>
-    {{ firebaseArray[0].value }}
-  </div>
 </template>
 
 <script>
+import RakutenAPIVue from "@/components/RakutenAPI.vue"
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 
 export default {
+  components: { RakutenAPIVue },
   data() {
     return {
       amazonbooks: [
@@ -105,7 +105,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style>
 .container {
   /*視覚整形モデル*/
   display: flex;

@@ -1,19 +1,22 @@
 <template>
-  <div>
-    <button v-on:click="SearchRakutenBooks">本検索</button>
-    <div v-for="(Title, index) in Books.title" v-bind:key="index">
-      {{ Title }}
+  <div class="rakuten-books">
+    <h3>Rakuten</h3>
+    <div class="books">
+      <!--books配列のうち、先頭から３つだけを取り出して表示させる→limitCount-->
+      <!--注意！result.vueにコンポーネントとして組み込む際には、result.vueの<style>タグの"scope"を削除すること！-->
+      <div v-for="(book, index) in limitCount" :key="index" class="book-info">
+        <h4>{{ book.title }}</h4>
+        <img class="pic" :src="book.imgPath" :alt="book.title" />
+        <div class="detail">著作者:{{ book.author }}</div>
+      </div>
     </div>
-    <img
-      :src="Img"
-      alt="{{ Title }}"
-      v-for="(Img, Imgkey) in Books.ImgPath"
-      v-bind:key="Imgkey"
-    />
   </div>
 </template>
 
 <script>
+import { collection, getDocs } from "firebase/firestore"
+import { db } from "../firebase"
+//ページをリロード
 const ReloadPage = function () {
   this.data.push("")
 }
@@ -21,32 +24,86 @@ ReloadPage
 export default {
   data() {
     return {
-      Books: { title: [], ImgPath: [] },
-      Keywords: ["明治"],
+      /*booksの内容をResult.vueに表示させたい
+      Result.vueのコンポーネントとしてrakutenAPI.vueをインポート */
+      books: [], //{ title: [], ImgPath: [], BookLink: [] },
+      firebaseArray: [],
     }
   },
-  methods: {
-    SearchRakutenBooks: function () {
+  methods: {},
+  computed: {
+    //booksに格納されたデータのうち、0～2(通し番号)までを表示する
+    limitCount() {
+      return this.books.slice(0, 3)
+    },
+  },
+  created() {
+    getDocs(collection(db, "input"))
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log(doc.data())
+          this.firebaseArray.push({
+            ...doc.data(),
+          })
+        })
+      })
+      //ここからAPIの処理
+      .then(() => {
+        fetch(
+          //キーワードプロパティの初期値：%E5%A4%AA%E9%99%BD
+          `https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=${this.firebaseArray[0].value}&booksGenreId=000&applicationId=1061693305820936277`
+        )
+          .then((res) => {
+            return res.json()
+          })
+          .then((data) => {
+            console.log("fetch完了")
+            console.log(data)
+            //dataのうち全部のtitleとLargeImageUrlをbooksにpushしたい
+            for (let i = 0; i <= data.Items.length - 1; i++) {
+              this.books.push({
+                title: data.Items[i].Item.title,
+                imgPath: data.Items[i].Item.largeImageUrl,
+                bookLink: data.Items[i].Item.itemUrl,
+                author: data.Items[i].Item.author,
+              })
+            }
+            console.log(this.books)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      })
+
+    /*console.log(this.firebaseArray)
+    console.log("firebaseからキーワード取ってきました！")
+    this.$nextTick(function () {
+      //RakutenAPIから本データを取ってくる
       fetch(
         //キーワードプロパティの初期値：%E5%A4%AA%E9%99%BD
-        `https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=${this.Keyword}&booksGenreId=000&applicationId=1061693305820936277`
+        `https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=${this.firebaseArray[0].value}&booksGenreId=000&applicationId=1061693305820936277`
       )
         .then((res) => {
           return res.json()
         })
         .then((data) => {
+          console.log("fetch完了")
           console.log(data)
-          //dataのうち全部のtitleとLargeImageUrlをBooksにpushしたい
+          //dataのうち全部のtitleとLargeImageUrlをbooksにpushしたい
           for (let i = 0; i <= data.Items.length - 1; i++) {
-            this.Books.title.push(data.Items[i].Item.title)
-            this.Books.ImgPath.push(data.Items[i].Item.largeImageUrl)
+            this.books.push({
+              title: data.Items[i].Item.title,
+              imgPath: data.Items[i].Item.largeImageUrl,
+              bookLink: data.Items[i].Item.itemUrl,
+              author: data.Items[i].Item.author,
+            })
           }
-          console.log(this.Books)
+          console.log(this.books)
         })
         .catch((error) => {
           console.error(error)
         })
-    },
+    })*/
   },
 }
 </script>

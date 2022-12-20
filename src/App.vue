@@ -1,7 +1,4 @@
 <template>
-  <RakutenAPIVue>
-    <div></div>
-  </RakutenAPIVue>
   <router-view />
   <div>
     <router-link to="/">Home</router-link> |
@@ -11,9 +8,7 @@
 </template>
 
 <script>
-import RakutenAPIVue from "./components/RakutenAPI.vue"
 export default {
-  components: { RakutenAPIVue },
   data() {
     return {}
   },
