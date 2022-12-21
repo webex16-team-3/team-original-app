@@ -6,7 +6,10 @@
       <!--注意！result.vueにコンポーネントとして組み込む際には、result.vueの<style>タグの"scope"を削除すること！-->
       <div v-for="(book, index) in limitCount" :key="index" class="book-info">
         <h4>{{ book.title }}</h4>
-        <img class="pic" :src="book.imgPath" :alt="book.title" />
+        <a :href="book.bookLink"
+          ><img class="pic" :src="book.imgPath" :alt="book.title"
+        /></a>
+
         <div class="detail">著作者:{{ book.author }}</div>
       </div>
     </div>
