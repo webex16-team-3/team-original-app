@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @font-face {
   font-family: "Yomogi";
   src: url("../assets/Yomogi-Regular.ttf") format("truetype");

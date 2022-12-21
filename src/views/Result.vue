@@ -56,8 +56,9 @@
           </div>
         </div>
         <!-- ここまでGoogleの本の表示 -->
-        <!-- ここからAmazonの本の表示 -->
-        <div class="amazon-books">
+        <!-- ここからITBooksの本の表示 classを"it-Booksに変更" -->
+        <itBooksAPIVue></itBooksAPIVue>
+        <!--<div class="it-books">
           <h3>Amazon</h3>
           <div class="books">
             <div
@@ -70,18 +71,19 @@
               <div class="detail">著作者:{{ amazonbook.author }}</div>
             </div>
           </div>
-          <!-- ここまでAmazonの本の表示 -->
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import itBooksAPIVue from "@/components/itBooksAPI.vue"
 import { doc, updateDoc, collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
 
 export default {
+  components: { itBooksAPIVue },
   data() {
     return {
       rakutenbooks: [
@@ -140,7 +142,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @font-face {
   font-family: "Bradley Hand";
   src: url("../assets/bradley-hand-itc.ttf") format("truetype");
@@ -275,13 +277,13 @@ ul li:hover {
   font-family: "Bradley Hand";
 }
 
-.amazon-books {
+.it-books {
   border-top: 1px solid;
   margin-top: 30px;
 }
 
-.amazon-books h3 {
-  width: 7rem;
+.it-books h3 {
+  width: 10rem;
   background-color: #964340;
   text-align: center;
   color: white;
