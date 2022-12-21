@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     gotohome: function () {
-      window.location.href = "http://localhost:8080/"
+      window.location.href = "https://team-original-app-72914.web.app/"
     },
     displayContent: function () {
       const element = document.getElementById("input-box")
@@ -69,7 +69,8 @@ export default {
 
         //firebaseに反映させる → 画面遷移する(非同期処理)
         updateValue.then(function () {
-          window.location.href = "http://localhost:8080/result"
+          window.location.href =
+            "https://team-original-app-72914.web.app/result"
           console.log("画面遷移します")
         })
       } else {
