@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-        <div class="rakuten-books">
+        <!---<div class="rakuten-books">
           <h3>Rakuten</h3>
           <div class="books">
             <div
@@ -38,8 +38,9 @@
               <div class="detail">著作者:{{ rakutenbook.author }}</div>
             </div>
           </div>
-        </div>
-        <div class="google-books">
+        </div>-->
+        <Google />
+        <!---<div class="google-books">
           <h3>Google</h3>
           <div class="books">
             <div
@@ -52,7 +53,7 @@
               <div class="detail">著作者:{{ googlebook.author }}</div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -64,6 +65,7 @@
 <script>
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
+import Google from "./Google.vue"
 
 export default {
   data() {
@@ -81,9 +83,12 @@ export default {
       googlebooks: [
         { index: 1, title: "g本のタイトル１", author: "太郎" },
         { index: 2, title: "g本のタイトル２", author: "次郎" },
-        { index: 3, title: "g本のタイトル３", author: "三郎" },
+        {
+          index: 3,
+          title: "g本のタイトル3",
+          author: "三郎",
+        },
       ],
-
       firebaseArray: [],
       inputValue: "",
     }
@@ -103,9 +108,10 @@ export default {
       })
     })
   },
+  components: { Google },
 }
 </script>
-<style scoped>
+<style>
 .container {
   /*視覚整形モデル*/
   display: flex;
