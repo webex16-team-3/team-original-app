@@ -1,22 +1,28 @@
 <template>
-  <div class="rakuten-books">
-    <h3>Rakuten</h3>
+  <div class="it-books">
+    <h3>IT BOOKSTORE</h3>
     <div class="books">
       <!--books配列のうち、先頭から３つだけを取り出して表示させる→limitCount-->
       <!--注意！result.vueにコンポーネントとして組み込む際には、result.vueの<style>タグの"scope"を削除すること！-->
       <div v-for="(book, index) in limitCount" :key="index" class="book-info">
-        <a :href="book.bookLink"
-          ><h4>{{ book.title }}</h4></a
-        >
-        <a :href="book.bookLink">
-          <img class="pic" :src="book.imgPath" :alt="book.title"
-        /></a>
-        <div class="detail">著作者:{{ book.author }}</div>
+        <div v-if="isdataexists === false">
+          <h4>{{ book.title }}</h4>
+          <a :href="book.bookLink"
+            ><img class="pic" :src="book.imgPath" :alt="book.title"
+          /></a>
+        </div>
+        <div v-else>
+          <a :href="book.bookLink"
+            ><h4>{{ book.title }}</h4></a
+          >
+          <a :href="book.bookLink"
+            ><img class="pic-it" :src="book.imgPath" :alt="book.title"
+          /></a>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
@@ -32,15 +38,15 @@ export default {
         Result.vueのコンポーネントとしてrakutenAPI.vueをインポート */
       books: [], //{ title: [], ImgPath: [], BookLink: [] },
       firebaseArray: [],
+      isdataexists: 0,
     }
   },
-  methods: {},
   computed: {
-    //booksに格納されたデータのうち、0～2(通し番号)までを表示する
     limitCount() {
       return this.books.slice(0, 3)
     },
   },
+  methods: {},
   created() {
     getDocs(collection(db, "input"))
       .then((snapshot) => {
@@ -50,23 +56,28 @@ export default {
           })
         })
       })
-      //ここからAPIの処理
+      //ここからAPIにリクエスト
       .then(() => {
         fetch(
-          //キーワードプロパティの初期値：%E5%A4%AA%E9%99%BD
-          `https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=${this.firebaseArray[0].value}&booksGenreId=000&applicationId=1061693305820936277`
+          `https://api.itbook.store/1.0/search/${this.firebaseArray[0].value}/`
         )
           .then((res) => {
             return res.json()
           })
           .then((data) => {
-            //dataのうち全部のtitleとLargeImageUrlをbooksにpushしたい
-            for (let i = 0; i <= data.Items.length - 1; i++) {
+            if (data.books.length === 0) {
+              this.isdataexists = false
+            } else {
+              this.isdataexists = true
+            }
+            //dataのうちimage,isbn13,title,urlをbooksに格納
+            for (let i = 0; i <= 2; i++) {
               this.books.push({
-                title: data.Items[i].Item.title,
-                imgPath: data.Items[i].Item.largeImageUrl,
-                bookLink: data.Items[i].Item.itemUrl,
-                author: data.Items[i].Item.author,
+                title: data.books[i] ? data.books[i].title : "不明",
+                imgPath: data.books[i]
+                  ? data.books[i].image
+                  : require("../assets/noimage2.gif"),
+                bookLink: data.books[i] ? data.books[i].url : "不明",
               })
             }
           })
@@ -77,4 +88,3 @@ export default {
   },
 }
 </script>
-<style></style>

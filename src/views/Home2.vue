@@ -5,7 +5,7 @@
 
     <div class="home-pic">
       <div class="name">
-        <h1>BOOK-<br />COMPARER</h1>
+        <h1>BOOK-<br />COMPARING</h1>
       </div>
     </div>
 
@@ -27,6 +27,7 @@
           placeholder="enter any keywords?"
           class="search-box"
           id="search-box"
+          @keydown.enter="displayContent()"
         />
         <button class="search-button" autofocus @click="displayContent()">
           search

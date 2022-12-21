@@ -3,7 +3,7 @@
     <div class="side-menu">
       <div class="site-name">
         <div>BOOK</div>
-        <div>COMPARER</div>
+        <div>COMPARING</div>
       </div>
       <div class="menu-lists">
         <h3>Menu</h3>
@@ -20,45 +20,20 @@
           id="input-box"
           class="input-box"
           :value="firebaseArray[0].value"
+          @keydown.enter="displayContent()"
         />
         <button @click="displayContent()">Search</button>
       </div>
       <div class="books-lists">
         <!-- ここから楽天の本の表示 -->
-        <RakutenAPIVue />
+        <RakutenAPI />
         <!-- ここまで楽天の本の表示 -->
         <!-- ここからGoogleの本の表示 -->
-        <div class="google-books">
-          <h3>Google</h3>
-          <div class="books">
-            <div
-              v-for="(googlebook, index) in googlebooks"
-              :key="index"
-              class="book-info"
-            >
-              <h4>{{ googlebook.title }}</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著作者:{{ googlebook.author }}</div>
-            </div>
-          </div>
-        </div>
+        <GoogleAPI />
         <!-- ここまでGoogleの本の表示 -->
-        <!-- ここからAmazonの本の表示 -->
-        <div class="amazon-books">
-          <h3>Amazon</h3>
-          <div class="books">
-            <div
-              v-for="(amazonbook, index) in amazonbooks"
-              :key="index"
-              class="book-info"
-            >
-              <h4>{{ amazonbook.title }}</h4>
-              <div class="pic">本の画像</div>
-              <div class="detail">著作者:{{ amazonbook.author }}</div>
-            </div>
-          </div>
-          <!-- ここまでAmazonの本の表示 -->
-        </div>
+        <!-- ここからitBooksの本の表示 -->
+        <itBooksAPI />
+        <!-- ここまでAmazonの本の表示 -->
       </div>
     </div>
   </div>
@@ -67,23 +42,14 @@
 <script>
 import { doc, updateDoc, collection, getDocs } from "firebase/firestore"
 import { db } from "../firebase"
-import RakutenAPIVue from "@/components/RakutenAPI.vue"
+import RakutenAPI from "@/components/RakutenAPI.vue"
+import GoogleAPI from "@/components/GoogleAPI.vue"
+import itBooksAPI from "@/components/itBooksAPI.vue"
 
 export default {
-  components: { RakutenAPIVue },
+  components: { RakutenAPI, GoogleAPI, itBooksAPI },
   data() {
     return {
-      googlebooks: [
-        { index: 1, title: "g本のタイトル１", author: "太郎" },
-        { index: 2, title: "g本のタイトル２", author: "次郎" },
-        { index: 3, title: "g本のタイトル３", author: "三郎" },
-      ],
-      amazonbooks: [
-        { index: 1, title: "a本のタイトル１", author: "太郎" },
-        { index: 2, title: "a本のタイトル２", author: "次郎" },
-        { index: 3, title: "a本のタイトル３", author: "三郎" },
-      ],
-
       firebaseArray: [],
       inputValue: "",
     }
@@ -226,14 +192,32 @@ ul li:hover {
   text-decoration: underline;
 }
 
-.pic {
-  float: left;
+.books img {
   width: 180px;
   height: 180px;
-  background-color: rgb(172, 172, 172);
+}
+
+.pic {
+  float: left;
+  background-color: #eceff7;
+}
+
+.pic:hover {
+  transform: scale(1.2);
+}
+
+.pic-it {
+  float: left;
+  width: 100%;
+  transform: scale(1.4);
+}
+
+.pic-it:hover {
+  transform: scale(1.6);
 }
 
 .detail {
+  margin-top: 15px;
   display: inline-block;
   width: 200px;
   height: 30px;
@@ -265,13 +249,13 @@ ul li:hover {
   font-family: "Bradley Hand";
 }
 
-.amazon-books {
+.it-books {
   border-top: 1px solid;
   margin-top: 10px;
 }
 
-.amazon-books h3 {
-  width: 7rem;
+.it-books h3 {
+  width: 10rem;
   background-color: #964340;
   text-align: center;
   color: white;
