@@ -66,7 +66,9 @@ export default {
                 title: data.Items[i].Item.title,
                 imgPath: data.Items[i].Item.largeImageUrl,
                 bookLink: data.Items[i].Item.itemUrl,
-                author: data.Items[i].Item.author,
+                author: data.Items[i].Item.author
+                  ? data.Items[i].Item.author
+                  : "不明",
               })
             }
           })
